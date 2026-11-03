@@ -12,4 +12,8 @@ public class UrlService {
 	public String helloWithNameAPI(String name) {
 		return "Get: Hello "+name+" From SpringBoot APP ";
 	}
+	
+	public String publishURL(String url) {
+		return "Get: Hello "+url+" From SpringBoot APP ";
+	}
 }
