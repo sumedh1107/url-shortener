@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sumedh.urlshortner.service.UrlService;
+
+import jakarta.validation.Valid;
+
 import com.sumedh.urlshortner.DTO.URL;
 
 @RestController
@@ -32,7 +35,7 @@ public class UrlController {
 	}
 	
 	@PostMapping(value = "/urls", consumes =  MediaType.APPLICATION_JSON_VALUE)
-	public String publishURL(@RequestBody  URL url) {
+	public String publishURL(@Valid @RequestBody  URL url) {
 		//String url1 = url.setOriginalUrl();
 		return urlService.publishURL(url.getOriginalUrl());
 		//return url.getOriginalUrl();

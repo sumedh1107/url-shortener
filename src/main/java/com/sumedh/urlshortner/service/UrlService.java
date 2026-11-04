@@ -14,6 +14,7 @@ public class UrlService {
 	}
 	
 	public String publishURL(String url) {
+		
 		return "Get: Hello "+url+" From SpringBoot APP ";
 	}
 }
