@@ -1,11 +1,14 @@
 package com.sumedh.urlshortner.DTO;
 
+import jakarta.persistence.Entity;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
-public class URL {
-	@NotNull @NotBlank @NotEmpty
+
+public class URLRequstDTO {
+	
+	@NotNull @NotBlank @NotEmpty 
 	private String originalUrl;
 
 	public String getOriginalUrl() {

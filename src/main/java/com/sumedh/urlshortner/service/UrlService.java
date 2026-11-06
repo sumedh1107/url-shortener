@@ -5,8 +5,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sumedh.urlshortner.DTO.URL;
+import com.sumedh.urlshortner.DTO.URLRequstDTO;
+import com.sumedh.urlshortner.entity.URL;
 import com.sumedh.urlshortner.repository.UrlRepository;
+
+import jakarta.validation.Valid;
 
 @Service
 public class UrlService {
@@ -26,7 +29,12 @@ public class UrlService {
 		return "Get: Hello "+url+" From SpringBoot APP ";
 	}
 	
-	//public URL getUrlFromRepo(Integer id) {
-		//return urlRepository.findById(id).orElse(return new URL(""));
-		//		}
+	public Integer saveURL(@Valid URLRequstDTO url ) {
+		URL urlEntity = new URL();
+		urlEntity.setOriginalUrl(url.getOriginalUrl());
+		urlRepository.save(urlEntity);
+		return urlEntity.getId();
+	}
+	
+	
 }

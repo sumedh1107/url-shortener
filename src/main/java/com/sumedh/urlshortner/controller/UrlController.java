@@ -15,7 +15,7 @@ import com.sumedh.urlshortner.service.UrlService;
 
 import jakarta.validation.Valid;
 
-import com.sumedh.urlshortner.DTO.URL;
+import com.sumedh.urlshortner.DTO.URLRequstDTO;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -35,9 +35,14 @@ public class UrlController {
 	}
 	
 	@PostMapping(value = "/urls", consumes =  MediaType.APPLICATION_JSON_VALUE)
-	public String publishURL(@Valid @RequestBody  URL url) {
+	public String publishURL(@Valid @RequestBody  URLRequstDTO url) {
 		//String url1 = url.setOriginalUrl();
 		return urlService.publishURL(url.getOriginalUrl());
 		//return url.getOriginalUrl();
+	}
+	@PostMapping(value = "/save", consumes =  MediaType.APPLICATION_JSON_VALUE)
+	public Integer saveURL(@Valid @RequestBody  URLRequstDTO url) {
+		 
+		return urlService.saveURL(url); 
 	}
 }
