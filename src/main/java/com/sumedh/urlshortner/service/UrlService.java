@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sumedh.urlshortner.DTO.URLRequstDTO;
+import com.sumedh.urlshortner.DTO.URLResponseDTO;
 import com.sumedh.urlshortner.entity.URL;
 import com.sumedh.urlshortner.repository.UrlRepository;
 
@@ -34,6 +35,13 @@ public class UrlService {
 		urlEntity.setOriginalUrl(url.getOriginalUrl());
 		urlRepository.save(urlEntity);
 		return urlEntity.getId();
+	}
+	
+	public Optional<URLResponseDTO> getURLByID(int id) {
+	//	 URLResponseDTO urlResponseDTO = new URLResponseDTO(urlRepository.findById(id)) ;
+//		 return Optional.ofNullable(urlResponseDTO);
+		 return urlRepository.findById(id)
+				 .map(url -> new URLResponseDTO(url));
 	}
 	
 	

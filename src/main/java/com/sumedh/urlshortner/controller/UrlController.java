@@ -2,7 +2,12 @@ package com.sumedh.urlshortner.controller;
 
  
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +21,7 @@ import com.sumedh.urlshortner.service.UrlService;
 import jakarta.validation.Valid;
 
 import com.sumedh.urlshortner.DTO.URLRequstDTO;
+import com.sumedh.urlshortner.DTO.URLResponseDTO;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -44,5 +50,14 @@ public class UrlController {
 	public Integer saveURL(@Valid @RequestBody  URLRequstDTO url) {
 		 
 		return urlService.saveURL(url); 
+	}
+	
+	@GetMapping("/urls/{id}")
+	public ResponseEntity<URLResponseDTO> getURLById(@PathVariable int id) {
+	//	return new  ResponseEntity<>(urlService.getURLByID(id), HttpStatus.OK);
+				 
+		return urlService.getURLByID(id)
+		        .map(ResponseEntity::ok)
+		        .orElseGet(() -> ResponseEntity.notFound().build());
 	}
 }
