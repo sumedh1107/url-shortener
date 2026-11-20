@@ -52,6 +52,12 @@ public class UrlController {
 		return urlService.saveURL(url); 
 	}
 	
+	@PostMapping(value = "/saveurl", consumes =  MediaType.APPLICATION_JSON_VALUE)
+	public Integer saveURLWithShortCode(@Valid @RequestBody  URLRequstDTO url) {
+		 
+		return urlService.saveURLWithShortCode(url); 
+	}
+	
 	@GetMapping("/urls/{id}")
 	public ResponseEntity<URLResponseDTO> getURLById(@PathVariable int id) {
 	//	return new  ResponseEntity<>(urlService.getURLByID(id), HttpStatus.OK);
