@@ -53,8 +53,8 @@ public class UrlController {
 	}
 	
 	@PostMapping(value = "/saveurl", consumes =  MediaType.APPLICATION_JSON_VALUE)
-	public Integer saveURLWithShortCode(@Valid @RequestBody  URLRequstDTO url) {
-		 
+	public Optional<URLResponseDTO>  saveURLWithShortCode(@Valid @RequestBody  URLRequstDTO url) {
+		 //with short code
 		return urlService.saveURLWithShortCode(url); 
 	}
 	

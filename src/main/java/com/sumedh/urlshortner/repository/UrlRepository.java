@@ -7,5 +7,6 @@ import com.sumedh.urlshortner.entity.URL;
 
 @Repository
 public interface UrlRepository extends JpaRepository<URL, Integer>{
+	public boolean existsByShortCode(String shortCode);
 
 }

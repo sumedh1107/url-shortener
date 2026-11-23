@@ -53,14 +53,20 @@ public class UrlService {
 	}
 	
 	//return with shortcode
-	public Integer saveURLWithShortCode(@Valid URLRequstDTO url ) {
+	public Optional<URLResponseDTO> saveURLWithShortCode(@Valid URLRequstDTO url ) {
 		URL urlEntity = new URL();
-		String shortCode = shortCodeGenerator.shortCodeGenerator(7);
-		urlEntity.setShortCode(shortCode);
-		urlEntity.setOriginalUrl(url.getOriginalUrl());
-		//TODO add exist logic for shortcode
-		urlRepository.save(urlEntity);
-		return urlEntity.getId();
+		String shortCode = shortCodeGenerator.shortCodeGenerator(7); 
+		//boolean isShortCodeExist = urlRepository.existsByShortCode(shortCode);
+		if (urlRepository.existsByShortCode(shortCode)) {
+		String newShortCode=	shortCodeGenerator.getUniqueShortCode();
+			urlEntity.setShortCode(newShortCode);
+		}else {
+			urlEntity.setShortCode(shortCode);
+		} 
+		urlEntity.setOriginalUrl(url.getOriginalUrl()); 
+		urlRepository.save(urlEntity); 
+		return urlRepository.findById(urlEntity.getId())
+				 .map(url1 -> new URLResponseDTO(url1));
 	}
 	
 	

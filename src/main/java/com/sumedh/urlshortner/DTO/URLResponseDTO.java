@@ -28,7 +28,7 @@ public class URLResponseDTO {
 	}
 
 
-	public String getOriginanlUrl() {
+	public String getOriginalUrl() {
 		return originalUrl;
 	}
 
