@@ -19,9 +19,8 @@ public class UrlService {
 	@Autowired
 	UrlRepository urlRepository;
 	
-//	@Autowired
-//	ShortCodeGenerator shortCodeGenerator;
 	private final ShortCodeGenerator shortCodeGenerator;
+	private static final int MAX_ATTEMPTS = 10;
 	
 	public UrlService(ShortCodeGenerator shortCodeGenerator) {
 		this.shortCodeGenerator = shortCodeGenerator;
@@ -53,20 +52,37 @@ public class UrlService {
 	}
 	
 	//return with shortcode
-	public Optional<URLResponseDTO> saveURLWithShortCode(@Valid URLRequstDTO url ) {
+	public  URLResponseDTO  saveURLWithShortCode(@Valid URLRequstDTO url ) {
 		URL urlEntity = new URL();
 		String shortCode = shortCodeGenerator.shortCodeGenerator(7); 
-		//boolean isShortCodeExist = urlRepository.existsByShortCode(shortCode);
 		if (urlRepository.existsByShortCode(shortCode)) {
-		String newShortCode=	shortCodeGenerator.getUniqueShortCode();
+		String newShortCode=	 getUniqueShortCode();
 			urlEntity.setShortCode(newShortCode);
 		}else {
 			urlEntity.setShortCode(shortCode);
 		} 
 		urlEntity.setOriginalUrl(url.getOriginalUrl()); 
-		urlRepository.save(urlEntity); 
-		return urlRepository.findById(urlEntity.getId())
-				 .map(url1 -> new URLResponseDTO(url1));
+		URL savedUrl = urlRepository.save(urlEntity);
+
+		return new URLResponseDTO(savedUrl); 
+	}
+	
+	
+
+	public String getUniqueShortCode() {
+
+	    for (int i = 0; i < MAX_ATTEMPTS; i++) {
+
+	        String candidate = shortCodeGenerator.shortCodeGenerator(7);
+
+	        if (!urlRepository.existsByShortCode(candidate)) {
+	            return candidate;
+	        }
+	    }
+	    throw new IllegalStateException(
+	        "Unable to generate a unique short code after "
+	        + MAX_ATTEMPTS + " attempts"
+	    );
 	}
 	
 	
