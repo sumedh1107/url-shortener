@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
+import java.net.URI;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,12 +59,25 @@ public class UrlController {
 		return urlService.saveURLWithShortCode(url); 
 	}
 	
-	@GetMapping("/urls/{id}")
+	@GetMapping("/urls/id/{id}")
 	public ResponseEntity<URLResponseDTO> getURLById(@PathVariable int id) {
 	//	return new  ResponseEntity<>(urlService.getURLByID(id), HttpStatus.OK);
 				 
 		return urlService.getURLByID(id)
 		        .map(ResponseEntity::ok)
 		        .orElseGet(() -> ResponseEntity.notFound().build());
+	}
+	
+	@GetMapping("/urls/{shortcode}")
+	public ResponseEntity<Void>  getURLByShortCode(@PathVariable String shortcode) {
+	    Optional<String> originalUrl = urlService.getOriginalUrl(shortcode);
+
+	    if (originalUrl.isEmpty()) {
+	        return ResponseEntity.notFound().build();
+	    }
+
+	    return ResponseEntity.status(HttpStatus.FOUND)
+	            .location(URI.create(originalUrl.get()))
+	            .build();
 	}
 }

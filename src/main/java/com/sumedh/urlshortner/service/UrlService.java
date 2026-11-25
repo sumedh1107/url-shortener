@@ -67,7 +67,10 @@ public class UrlService {
 		return new URLResponseDTO(savedUrl); 
 	}
 	
-	
+	public Optional<String> getOriginalUrl(String shortCode) {
+	    return urlRepository.findByShortCode(shortCode)
+	            .map(URL::getOriginalUrl);
+	}
 
 	public String getUniqueShortCode() {
 
